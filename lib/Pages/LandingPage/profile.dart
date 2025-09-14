@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sahaay/Pages/AuthPage/log_in.dart';
+import 'package:sahaay/Pages/AuthPage/sign_up.dart';
 
 class ProfilePage extends StatelessWidget {
   final bool isLoggedIn;
@@ -51,7 +53,9 @@ class ProfilePage extends StatelessWidget {
         const SizedBox(height: 30),
         ElevatedButton(
           onPressed: () {
-            // Navigate to Login Page
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (context) => LoginPage()));
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.teal,
@@ -65,7 +69,9 @@ class ProfilePage extends StatelessWidget {
         const SizedBox(height: 12),
         OutlinedButton(
           onPressed: () {
-            // Navigate to Sign Up Page
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (context) => SignupPage()));
           },
           style: OutlinedButton.styleFrom(
             side: const BorderSide(color: Colors.teal),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sahaay/Animation/logo_animation.dart';
-import 'package:sahaay/Pages/LandingPage/front.dart';
 
 void main() {
   runApp(const Sahaay());
