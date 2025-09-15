@@ -39,8 +39,11 @@ class FeatureCard extends StatelessWidget {
               Text(
                 subtitle,
                 style: const TextStyle(fontSize: 13, color: Colors.grey),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                softWrap: true,
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(

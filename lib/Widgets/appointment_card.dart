@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AppointmentCard extends StatelessWidget {
   final String counselorName;
@@ -74,11 +75,9 @@ class AppointmentCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-
             // Details
             Text(details, style: const TextStyle(fontSize: 14)),
             const SizedBox(height: 8),
-
             Row(
               children: [
                 const Icon(Icons.calendar_today, size: 16, color: Colors.grey),
@@ -113,6 +112,54 @@ class AppointmentCard extends StatelessWidget {
                 Text(
                   "Languages: $languages",
                   style: const TextStyle(color: Colors.black87),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+
+            // Action Buttons
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: () {
+                    // TODO: Handle join session
+                  },
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  icon: const Icon(
+                    Icons.video_call,
+                    size: 18,
+                    color: Colors.white,
+                  ),
+                  label: const Text("Join Session"),
+                ),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    // TODO: Handle WhatsApp
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                  ),
+                  icon: const FaIcon(
+                    FontAwesomeIcons.whatsapp,
+                    size: 18,
+                    color: Colors.white,
+                  ),
+                  label: const Text("WhatsApp"),
+                ),
+                OutlinedButton.icon(
+                  onPressed: () {
+                    // TODO: Handle reschedule
+                  },
+                  icon: const Icon(Icons.schedule, size: 18),
+                  label: const Text("Reschedule"),
+                ),
+                OutlinedButton.icon(
+                  onPressed: () {},
+                  icon: const Icon(Icons.cancel, size: 18),
+                  label: const Text("Cancel"),
+                  style: OutlinedButton.styleFrom(foregroundColor: Colors.red),
                 ),
               ],
             ),

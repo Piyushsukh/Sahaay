@@ -1,5 +1,10 @@
-// The main dashboard page widget
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sahaay/Widgets/progress_indicator.dart';
+import 'package:sahaay/Widgets/recently_active_item.dart';
+import 'package:sahaay/main.dart';
+import 'package:sahaay/widgets/feature_card.dart';
+import 'package:sahaay/widgets/appointment_card.dart';
 
 class StDashboard extends StatelessWidget {
   const StDashboard({super.key});
@@ -7,964 +12,433 @@ class StDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      backgroundColor: const Color(0xFFF7F9FC),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          _buildHeader(),
+          const SizedBox(height: 16),
+          _buildDailyMotivation(context),
+          const SizedBox(height: 16),
+          _buildFeatureCards(),
+          const SizedBox(height: 16),
+          _buildProgressSection(),
+          const SizedBox(height: 16),
+          _buildRecentActivity(),
+          const SizedBox(height: 16),
+          _buildUpcomingAppointments(context),
+          const SizedBox(height: 16),
+          _buildCrisisSupportBanner(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Consumer(
+      builder: (context, ref, child) => Card(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        elevation: 1,
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header and navigation bar
-              _buildHeader(context),
-              const SizedBox(height: 24),
-              // Main content layout with two columns
-              _buildMainContent(context),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: _buildCrisisSupportBanner(),
-    );
-  }
-
-  // --- Widget Builders for each section ---
-
-  Widget _buildHeader(BuildContext context) {
-    bool isSmallScreen = MediaQuery.of(context).size.width < 1000;
-
-    if (isSmallScreen) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildLogo(),
-              const Icon(Icons.menu), // Hamburger menu for small screens
-            ],
-          ),
-          const SizedBox(height: 16),
-          // Navigation tabs can be in a scrollable row or a column on small screens
-        ],
-      );
-    } else {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [_buildLogo(), _buildHeaderTabs()],
-      );
-    }
-  }
-
-  Widget _buildLogo() {
-    return Row(
-      children: [
-        Image.network(
-          'https://placehold.co/40x40/E5F1E5/006400?text=S',
-          height: 40,
-        ),
-        const SizedBox(width: 8),
-        const Text(
-          'Sahaay',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildHeaderTabs() {
-    return Row(
-      children: [
-        _buildHeaderTab('Dashboard', Icons.dashboard),
-        _buildHeaderTab('Journal', Icons.book_outlined),
-        _buildHeaderTab('AI Support', Icons.chat_bubble_outline),
-        _buildHeaderTab('Book Session', Icons.calendar_today_outlined),
-        _buildHeaderTab('Crisis Support', Icons.error_outline, isCrisis: true),
-        _buildHeaderTab('Student Portal', Icons.school),
-        const Icon(Icons.person_outline),
-      ],
-    );
-  }
-
-  Widget _buildHeaderTab(String title, IconData icon, {bool isCrisis = false}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-      child: isCrisis
-          ? Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: Colors.red.shade100,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Row(
-                children: [
-                  Icon(icon, color: Colors.red),
-                  const SizedBox(width: 4),
-                  Text(
-                    title,
+              Consumer(
+                builder: (context, ref, child) {
+                  return Text(
+                    'Good evening, ${ref.watch(nameProvider)}!',
                     style: const TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ),
-                ],
+                  );
+                },
               ),
-            )
-          : Row(
-              children: [
-                Icon(icon, color: Colors.grey.shade600),
-                const SizedBox(width: 4),
-                Text(title, style: TextStyle(color: Colors.grey.shade800)),
-              ],
-            ),
-    );
-  }
-
-  Widget _buildMainContent(BuildContext context) {
-    bool isSmallScreen = MediaQuery.of(context).size.width < 1000;
-
-    if (isSmallScreen) {
-      return Column(
-        children: [
-          _buildGreetingCard(),
-          const SizedBox(height: 24),
-          _buildDailyMotivation(),
-          const SizedBox(height: 24),
-          _buildFeatureGrid(context),
-          const SizedBox(height: 24),
-          _buildYourProgressSection(),
-          const SizedBox(height: 24),
-          _buildRecentActivitySection(),
-          const SizedBox(height: 24),
-          _buildUpcomingAppointments(),
-          const SizedBox(height: 24),
-          _buildResourceHubAndForum(),
-        ],
-      );
-    } else {
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            flex: 3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildGreetingCard(),
-                const SizedBox(height: 24),
-                _buildDailyMotivation(),
-                const SizedBox(height: 24),
-                _buildFeatureGrid(context),
-                const SizedBox(height: 24),
-                _buildYourProgressSection(),
-                const SizedBox(height: 24),
-                _buildRecentActivitySection(),
-                const SizedBox(height: 24),
-                _buildResourceHubAndForum(),
-              ],
-            ),
-          ),
-          const SizedBox(width: 24),
-          Expanded(
-            flex: 1,
-            child: Column(children: [_buildUpcomingAppointments()]),
-          ),
-        ],
-      );
-    }
-  }
-
-  Widget _buildGreetingCard() {
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Good evening, Alex!',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Monday, September 14, 2025',
-                    style: TextStyle(color: Colors.grey.shade600),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Welcome to your mental wellness journey. How are you feeling today?',
-                    style: TextStyle(color: Colors.grey.shade800),
-                  ),
-                ],
+              const SizedBox(height: 4),
+              const Text(
+                'Sunday, September 14, 2025',
+                style: TextStyle(color: Colors.grey),
               ),
-            ),
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+              const SizedBox(height: 12),
+              const Text(
+                'Welcome to your mental wellness journey. How are you feeling today?',
+              ),
+              const SizedBox(height: 16),
+
+              // Mood Row
+              Row(
                 children: [
-                  Text(
-                    'Current Mood',
-                    style: TextStyle(color: Colors.grey.shade600),
+                  Icon(
+                    _getMoodIcon(ref.watch(moodProvider)),
+                    size: 36,
+                    color: _getMoodColor(ref.watch(moodProvider)),
                   ),
-                  const SizedBox(height: 4),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                  const SizedBox(width: 8),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Neutral',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        "Current Mood",
+                        style: TextStyle(color: Colors.grey, fontSize: 12),
                       ),
-                      const SizedBox(width: 8),
-                      Image.network(
-                        'https://placehold.co/30x30/FFFFFF/000000?text=%F0%9F%99%84',
-                        height: 30,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Last updated: 11:24 PM',
-                    style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
-                  ),
-                  const SizedBox(height: 8),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Update Mood',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDailyMotivation() {
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Row(
-          children: [
-            const Icon(Icons.star, color: Colors.green),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Daily Motivation',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Asking for help is a sign of strength, not weakness.',
-                    style: TextStyle(color: Colors.grey.shade700),
-                  ),
-                ],
-              ),
-            ),
-            const Icon(Icons.chevron_right, color: Colors.grey),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFeatureGrid(BuildContext context) {
-    int crossAxisCount = MediaQuery.of(context).size.width > 600 ? 4 : 2;
-    return GridView.count(
-      shrinkWrap: true,
-      crossAxisCount: crossAxisCount,
-      crossAxisSpacing: 16,
-      mainAxisSpacing: 16,
-      childAspectRatio: 0.9,
-      physics: const NeverScrollableScrollPhysics(),
-      children: [
-        _FeatureCard(
-          title: 'Self Assessment',
-          subtitle: 'Take PHQ-9 or GAD-7 questionnaire',
-          icon: Icons.assignment_outlined,
-          label: 'Weekly',
-          iconColor: Colors.blue.shade300,
-        ),
-        _FeatureCard(
-          title: 'AI Support Chat',
-          subtitle: 'Get instant mental health guidance',
-          icon: Icons.chat_bubble_outline,
-          label: '24/7',
-          iconColor: Colors.purple.shade300,
-        ),
-        _FeatureCard(
-          title: 'Book Session',
-          subtitle: 'Schedule with a counselor',
-          icon: Icons.calendar_today_outlined,
-          label: 'Available',
-          iconColor: Colors.green.shade300,
-        ),
-        _FeatureCard(
-          title: 'Digital Journal',
-          subtitle: 'Record your thoughts and feelings',
-          icon: Icons.auto_stories_outlined,
-          label: 'Private',
-          iconColor: Colors.orange.shade300,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildYourProgressSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text(
-              'Your Progress',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            TextButton(
-              onPressed: () {},
-              child: const Text(
-                'This Month',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        LayoutBuilder(
-          builder: (context, constraints) {
-            if (constraints.maxWidth < 600) {
-              return Column(
-                children: [
-                  _buildProgressItem(
-                    'Mood Tracking',
-                    '12/30 days',
-                    0.4,
-                    Colors.blue,
-                  ),
-                  const SizedBox(height: 16),
-                  _buildProgressItem(
-                    'Journal Entries',
-                    '8/15 entries',
-                    0.53,
-                    Colors.green,
-                  ),
-                  const SizedBox(height: 16),
-                  _buildProgressItem(
-                    'Counseling Sessions',
-                    '3/6 sessions',
-                    0.5,
-                    Colors.purple,
-                  ),
-                  const SizedBox(height: 16),
-                  _buildProgressItem(
-                    'Self Assessments',
-                    '2/4 completed',
-                    0.5,
-                    Colors.orange,
-                  ),
-                ],
-              );
-            } else {
-              return Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _buildProgressItem(
-                          'Mood Tracking',
-                          '12/30 days',
-                          0.4,
-                          Colors.blue,
+                      Text(
+                        ref.watch(moodProvider),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: _buildProgressItem(
-                          'Journal Entries',
-                          '8/15 entries',
-                          0.53,
-                          Colors.green,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _buildProgressItem(
-                          'Counseling Sessions',
-                          '3/6 sessions',
-                          0.5,
-                          Colors.purple,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: _buildProgressItem(
-                          'Self Assessments',
-                          '2/4 completed',
-                          0.5,
-                          Colors.orange,
-                        ),
+                      const Text(
+                        "Last updated: 11:24 PM", // you can replace with real timestamp
+                        style: TextStyle(color: Colors.grey, fontSize: 10),
                       ),
                     ],
                   ),
                 ],
-              );
-            }
-          },
-        ),
-      ],
-    );
-  }
+              ),
 
-  Widget _buildProgressItem(
-    String title,
-    String count,
-    double value,
-    Color color,
-  ) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-              Text(count, style: TextStyle(color: Colors.grey.shade600)),
+              const SizedBox(height: 16),
+
+              // Update Mood Button
+              ElevatedButton(
+                onPressed: () {
+                  _showMoodDialog(context, ref);
+                },
+                child: const Text("Update Mood"),
+              ),
             ],
           ),
-          const SizedBox(height: 8),
-          LinearProgressIndicator(
-            value: value,
-            backgroundColor: Colors.grey.shade200,
-            color: color,
-            borderRadius: BorderRadius.circular(10),
-            minHeight: 8,
-          ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildRecentActivitySection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text(
-              'Recent Activity',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            TextButton(onPressed: () {}, child: const Text('View All')),
-          ],
-        ),
-        const SizedBox(height: 16),
-        _buildActivityItem(
-          icon: Icons.description_outlined,
-          title: 'Morning Reflection',
-          description:
-              'Wrote about feeling more optimistic today after a good night\'s sleep.',
-          time: '2 hours ago',
-          iconColor: Colors.blue.shade300,
-        ),
-        _buildActivityItem(
-          icon: Icons.favorite_border,
-          title: 'Mood Check-in',
-          description:
-              'Recorded mood as "Good" - feeling positive about upcoming presentation.',
-          time: '4 hours ago',
-          iconColor: Colors.green.shade300,
-        ),
-        _buildActivityItem(
-          icon: Icons.assessment_outlined,
-          title: 'PHQ-9 Assessment',
-          description:
-              'Completed weekly depression screening - scores showing improvement.',
-          time: '1 day ago',
-          iconColor: Colors.purple.shade300,
-        ),
-        _buildActivityItem(
-          icon: Icons.people_outline,
-          title: 'Counseling Session',
-          description:
-              'Had a productive session with Dr. Sarah about stress management techniques.',
-          time: '2 days ago',
-          iconColor: Colors.orange.shade300,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildActivityItem({
-    required IconData icon,
-    required String title,
-    required String description,
-    required String time,
-    required Color iconColor,
-  }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, color: iconColor, size: 30),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  description,
-                  style: TextStyle(color: Colors.grey.shade600),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 16),
-          Text(
-            time,
-            style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildResourceHubAndForum() {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (constraints.maxWidth < 600) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+  void _showMoodDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Select your mood"),
+          content: Wrap(
+            spacing: 12,
             children: [
-              _buildResourceHub(),
-              const SizedBox(height: 24),
-              _buildPeerSupportForum(),
+              _moodEmoji(context, ref, "Happy", "😊"),
+              _moodEmoji(context, ref, "Sad", "😢"),
+              _moodEmoji(context, ref, "Neutral", "😐"),
+              _moodEmoji(context, ref, "Angry", "😡"),
+              _moodEmoji(context, ref, "Excited", "🤩"),
             ],
-          );
-        } else {
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(flex: 1, child: _buildResourceHub()),
-              const SizedBox(width: 24),
-              Expanded(flex: 1, child: _buildPeerSupportForum()),
-            ],
-          );
-        }
+          ),
+        );
       },
     );
   }
 
-  Widget _buildResourceHub() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Resource Hub',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 16),
-        _buildResourceItem(
-          '5-Minute Morning Meditation',
-          'https://placehold.co/150x90/D6E7EF/000000?text=Audio',
-        ),
-        _buildResourceItem(
-          'Understanding Anxiety',
-          'https://placehold.co/150x90/F9E0E0/000000?text=Video',
-        ),
-        _buildResourceItem(
-          'Sleep Stories for Adults',
-          'https://placehold.co/150x90/E5F1E5/000000?text=Audio',
-        ),
-        _buildResourceItem(
-          'Breathing Exercises',
-          'https://placehold.co/150x90/F9E0F9/000000?text=Guide',
-        ),
-        _buildResourceItem(
-          'Building Healthy Habits',
-          'https://placehold.co/150x90/E0F9F9/000000?text=Article',
-        ),
-      ],
-    );
-  }
-
-  Widget _buildResourceItem(String title, String imageUrl) {
-    return Card(
-      elevation: 1,
-      margin: const EdgeInsets.only(bottom: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                imageUrl,
-                width: 80,
-                height: 50,
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Subtitle here...',
-                    style: TextStyle(color: Colors.grey.shade600),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPeerSupportForum() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Peer Support Forum',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 16),
-        _buildForumThread(
-          'Dealing with exam anxiety - tips that actually work',
-          '3h ago',
-        ),
-        _buildForumThread(
-          'Finding motivation when everything feels overwhelming',
-          '6h ago',
-        ),
-        _buildForumThread(
-          'Healthy sleep habits that changed my life',
-          '12h ago',
-        ),
-      ],
-    );
-  }
-
-  Widget _buildForumThread(String title, String time) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-      ),
+  Widget _moodEmoji(
+    BuildContext context,
+    WidgetRef ref,
+    String mood,
+    String emoji,
+  ) {
+    return GestureDetector(
+      onTap: () {
+        ref.read(moodProvider.notifier).state = mood;
+        Navigator.pop(context); // close dialog
+      },
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-          const SizedBox(height: 8),
-          Text(time, style: TextStyle(color: Colors.grey.shade500)),
+          Text(emoji, style: const TextStyle(fontSize: 28)),
+          Text(mood, style: const TextStyle(fontSize: 12)),
         ],
       ),
     );
   }
 
-  Widget _buildUpcomingAppointments() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Upcoming Appointments',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 16),
-        _buildAppointmentCard(
-          name: 'Dr. Rajesh Kumar',
-          specialty: 'Family & Career Counselor',
-          status: 'Confirmed',
-          date: 'Saturday 20 Sept',
-          time: '10:30 AM (45 min)',
-          isConfirmed: true,
-        ),
-        const SizedBox(height: 16),
-        _buildAppointmentCard(
-          name: 'Dr. Meera Reddy',
-          specialty: 'Crisis Intervention Specialist',
-          status: 'Pending',
-          date: 'Sunday 21 Sept',
-          time: '4:30 PM (60 min)',
-          isConfirmed: false,
-        ),
-      ],
-    );
+  static IconData _getMoodIcon(String mood) {
+    switch (mood) {
+      case "Happy":
+        return Icons.sentiment_satisfied;
+      case "Sad":
+        return Icons.sentiment_dissatisfied;
+      case "Angry":
+        return Icons.sentiment_very_dissatisfied;
+      case "Excited":
+        return Icons.emoji_emotions;
+      default:
+        return Icons.sentiment_neutral;
+    }
   }
 
-  Widget _buildAppointmentCard({
-    required String name,
-    required String specialty,
-    required String status,
-    required String date,
-    required String time,
-    required bool isConfirmed,
-  }) {
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 20,
-                        backgroundImage: NetworkImage(
-                          'https://placehold.co/40x40/E5F1E5/006400?text=${name.substring(name.indexOf(' ') + 1, name.indexOf(' ') + 2)}',
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              name,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              specialty,
-                              style: TextStyle(
-                                color: Colors.grey.shade600,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Chip(
-                  label: Text(status),
-                  backgroundColor: isConfirmed
-                      ? Colors.green.shade100
-                      : Colors.orange.shade100,
-                  labelStyle: TextStyle(
-                    color: isConfirmed
-                        ? Colors.green.shade800
-                        : Colors.orange.shade800,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                const Icon(
-                  Icons.calendar_today_outlined,
-                  size: 16,
-                  color: Colors.grey,
-                ),
-                const SizedBox(width: 8),
-                Text(date, style: TextStyle(color: Colors.grey.shade800)),
-                const Spacer(),
-                const Icon(Icons.access_time, size: 16, color: Colors.grey),
-                const SizedBox(width: 8),
-                Text(time, style: TextStyle(color: Colors.grey.shade800)),
-              ],
-            ),
-            const SizedBox(height: 16),
-            if (isConfirmed)
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue.shade800,
-                  foregroundColor: Colors.white,
-                  minimumSize: const Size.fromHeight(40),
-                ),
-                child: const Text('Join Session'),
-              ),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextButton(onPressed: () {}, child: const Text('Reschedule')),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Cancel',
-                    style: TextStyle(color: Colors.red),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCrisisSupportBanner() {
-    return Container(
-      color: Colors.red.shade800,
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      child: const Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Row(
-              children: [
-                Icon(Icons.favorite, color: Colors.white),
-                SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Need Immediate Support?',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'Crisis support is available 24/7. You\'re not alone.',
-                        style: TextStyle(color: Colors.white70, fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(width: 12),
-          Text(
-            'Call 14416',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
+  static Color _getMoodColor(String mood) {
+    switch (mood) {
+      case "Happy":
+        return Colors.green;
+      case "Sad":
+        return Colors.blue;
+      case "Angry":
+        return Colors.red;
+      case "Excited":
+        return Colors.purple;
+      default:
+        return Colors.orange;
+    }
   }
 }
 
-class _FeatureCard extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final IconData icon;
-  final String label;
-  final Color iconColor;
+Widget _buildDailyMotivation(BuildContext context) {
+  return Card(
+    color: Colors.green[50],
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    child: Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Row(
+        children: [
+          Icon(Icons.star_border, color: Theme.of(context).primaryColor),
+          const SizedBox(width: 8),
+          const Expanded(
+            child: Text(
+              'Asking for help is a sign of strength, not weakness.',
+              style: TextStyle(fontSize: 14),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
 
-  const _FeatureCard({
-    required this.title,
-    required this.subtitle,
-    required this.icon,
-    required this.label,
-    required this.iconColor,
-  });
+Widget _buildFeatureCards() {
+  return GridView.count(
+    crossAxisCount: 2,
+    crossAxisSpacing: 12,
+    mainAxisSpacing: 12,
+    shrinkWrap: true,
+    physics: const NeverScrollableScrollPhysics(),
+    children: [
+      InkWell(
+        onTap: () {},
+        child: FeatureCard(
+          icon: Icons.assignment_outlined,
+          title: 'Self Assessment',
+          subtitle: 'Take PHQ-9 or GAD-7 questionnaires',
+          tag: 'Weekly',
+        ),
+      ),
+      InkWell(
+        onTap: () {},
+        child: FeatureCard(
+          icon: Icons.support_agent_outlined,
+          title: 'AI Support Chat',
+          subtitle: 'Get instant guidance',
+          tag: '24/7',
+        ),
+      ),
+      InkWell(
+        onTap: () {},
+        child: FeatureCard(
+          icon: Icons.calendar_today_outlined,
+          title: 'Book Session',
+          subtitle: 'Schedule with counselor',
+          tag: 'Available',
+        ),
+      ),
+      InkWell(
+        onTap: () {},
+        child: FeatureCard(
+          icon: Icons.book_outlined,
+          title: 'Digital Journal',
+          subtitle: 'Record your thoughts',
+          tag: 'Private',
+        ),
+      ),
+    ],
+  );
+}
 
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 1,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+Widget _buildProgressSection() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: const [
+      Text(
+        'Your Progress',
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ),
+      SizedBox(height: 12),
+      ProgressIndicatorCard(
+        title: 'Mood Tracking',
+        progress: 0.4,
+        completed: '12/30 days',
+        remaining: '18 more to go',
+        color: Colors.blue,
+      ),
+      SizedBox(height: 12),
+      ProgressIndicatorCard(
+        title: 'Journal Entries',
+        progress: 0.53,
+        completed: '8/15 entries',
+        remaining: '7 more to go',
+        color: Colors.green,
+      ),
+      SizedBox(height: 12),
+      ProgressIndicatorCard(
+        title: 'Counseling Sessions',
+        progress: 0.5,
+        completed: '3/6 sessions',
+        remaining: '3 more to go',
+        color: Colors.purple,
+      ),
+      SizedBox(height: 12),
+      ProgressIndicatorCard(
+        title: 'Self Assessments',
+        progress: 0.5,
+        completed: '2/4 completed',
+        remaining: '2 more to go',
+        color: Colors.orange,
+      ),
+    ],
+  );
+}
+
+Widget _buildRecentActivity() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: const [
+      Text(
+        'Recent Activity',
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ),
+      SizedBox(height: 12),
+      RecentlyActiveItem(
+        icon: Icons.book_outlined,
+        title: 'Morning Reflection',
+        description: 'Wrote about optimism after good sleep.',
+        time: '2 hours ago',
+      ),
+      Divider(),
+      RecentlyActiveItem(
+        icon: Icons.mood_outlined,
+        title: 'Mood Check-in',
+        description: 'Feeling positive about presentation.',
+        time: '4 hours ago',
+      ),
+      Divider(),
+      RecentlyActiveItem(
+        icon: Icons.assignment_outlined,
+        title: 'PHQ-9 Assessment',
+        description: 'Completed weekly depression screening.',
+        time: '1 day ago',
+      ),
+      Divider(),
+      RecentlyActiveItem(
+        icon: Icons.support_agent_outlined,
+        title: 'Counseling Session',
+        description: 'Had a productive session with Dr. Sarah.',
+        time: '2 days ago',
+      ),
+    ],
+  );
+}
+
+Widget _buildUpcomingAppointments(BuildContext context) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: const [
+      Text(
+        'Upcoming Appointments',
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ),
+      SizedBox(height: 12),
+      AppointmentCard(
+        counselorName: 'Dr. Rajesh Kumar',
+        specialty: 'Family & Career Counselor',
+        details: 'Career vs Family Expectations',
+        date: 'Friday 19 Sept',
+        time: '10:30 AM (45 min)',
+        meetingType: 'Virtual Meeting (Google Meet)',
+        languages: 'Hindi, English, Marathi',
+        status: 'Confirmed',
+      ),
+      SizedBox(height: 12),
+      AppointmentCard(
+        counselorName: 'Dr. Meera Reddy',
+        specialty: 'Crisis Intervention Specialist',
+        details: 'Anxiety & Depression Support',
+        date: 'Sunday 21 Sept',
+        time: '4:30 PM (60 min)',
+        meetingType: 'Emergency Support Session',
+        languages: 'Telugu, English, Hindi, Kannada',
+        status: 'Pending',
+      ),
+    ],
+  );
+}
+
+Widget _buildCrisisSupportBanner() {
+  return Container(
+    padding: const EdgeInsets.all(16),
+    decoration: BoxDecoration(
+      color: const Color(0xFFFEE8EC),
+      borderRadius: BorderRadius.circular(16),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Row(
           children: [
-            Align(
-              alignment: Alignment.topRight,
-              child: Chip(
-                label: Text(label),
-                backgroundColor: iconColor.withOpacity(0.1),
-                labelStyle: TextStyle(
-                  color: iconColor,
+            Icon(Icons.favorite, color: Colors.red),
+            SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                'Need Immediate Support? Crisis support is available 24/7.',
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 10,
+                  color: Color(0xFFC70039),
                 ),
               ),
             ),
-            const Spacer(),
-            Icon(icon, size: 40, color: iconColor),
-            const SizedBox(height: 8),
-            Text(
-              title,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              subtitle,
-              style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Flexible(
-                  child: const Text(
-                    'Get Started',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(
+              child: ElevatedButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.phone, color: Color(0xFFC70039)),
+                label: const Text(
+                  'Call 14416',
+                  style: TextStyle(color: Color(0xFFC70039)),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                const SizedBox(width: 4),
-                Icon(
-                  Icons.arrow_forward,
-                  size: 16,
-                  color: Colors.blue.shade800,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
-              ],
+                child: const Text(
+                  'Chat Now',
+                  style: TextStyle(color: Color(0xFFC70039)),
+                ),
+              ),
             ),
           ],
         ),
-      ),
-    );
-  }
+      ],
+    ),
+  );
 }

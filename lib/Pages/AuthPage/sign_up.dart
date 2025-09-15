@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahaay/Pages/AuthPage/log_in.dart';
 import 'package:sahaay/Pages/StudentDashboard/st_dashboard.dart';
+import 'package:sahaay/Pages/StudentDashboard/st_front.dart';
+import 'package:sahaay/main.dart';
 
-class SignupPage extends StatefulWidget {
+class SignupPage extends ConsumerStatefulWidget {
   const SignupPage({super.key});
 
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  ConsumerState<SignupPage> createState() => _SignupPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _SignupPageState extends ConsumerState<SignupPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -33,8 +36,11 @@ class _SignupPageState extends State<SignupPage> {
         );
 
         if (_selectedRole == 'Student') {
+          ref.read(nameProvider.notifier).state = _nameController.text;
           Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => StDashboard()),
+            MaterialPageRoute(
+              builder: (context) => StFront(page: 'StDashboard'),
+            ),
             (route) => false,
           );
         }

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahaay/Pages/AuthPage/sign_up.dart';
-import 'package:sahaay/Pages/StudentDashboard/st_dashboard.dart';
+import 'package:sahaay/Pages/StudentDashboard/st_front.dart';
+import 'package:sahaay/main.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _emailController = TextEditingController();
@@ -25,15 +27,17 @@ class _LoginPageState extends State<LoginPage> {
       Future.delayed(const Duration(seconds: 2), () {
         setState(() => _isLoading = false);
 
-        if (!mounted) return;
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text("Login Successful")));
-
         if (_emailController.text == 'student123@gmail.com' &&
             _passwordController.text == 'student123') {
+          ref.read(nameProvider.notifier).state = "Piyush Sukhwani";
+          if (!mounted) return;
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text("Login Successful")));
           Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => StDashboard()),
+            MaterialPageRoute(
+              builder: (context) => StFront(page: 'StDashboard'),
+            ),
             (_) => false,
           );
         }
