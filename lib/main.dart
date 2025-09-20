@@ -3,16 +3,17 @@ import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:sahaay/Animation/logo_animation.dart';
-import 'package:sahaay/Pages/StudentDashboard/st_front.dart';
+import 'package:sahaay/Pages/AdminDashboard/admin_front.dart';
+import 'package:sahaay/Pages/LandingPage/front.dart';
 
 final nameProvider = StateProvider<String>((ref) {
-  return ""; // Default name
+  return "";
 });
 
 final moodProvider = StateProvider<String>((ref) => "Neutral");
 
 void main() {
-  Gemini.init(apiKey: "AIzaSyDG9KYI7ZmD5QqwMd8uSQdQo8mCA_1_rF8");
+  Gemini.init(apiKey: "AIzaSyDmRdVGppLT6FBq3ouKzk1YCxWNdAQTx0s");
   runApp(const ProviderScope(child: Sahaay()));
 }
 
@@ -40,7 +41,7 @@ class Sahaay extends StatelessWidget {
         ),
         iconTheme: IconThemeData(color: Color.fromARGB(255, 94, 139, 126)),
       ),
-      home: StFront(page: 'StDashboard'),
+      home: AdminFront(page: 'AdminOverview'),
     );
   }
 }

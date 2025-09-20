@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sahaay/Pages/AuthPage/log_in.dart';
-import 'package:sahaay/Pages/StudentDashboard/st_dashboard.dart';
 import 'package:sahaay/Pages/StudentDashboard/st_front.dart';
 import 'package:sahaay/main.dart';
 

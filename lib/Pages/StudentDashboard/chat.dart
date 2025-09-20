@@ -212,7 +212,6 @@ class _MessageBubble extends StatelessWidget {
   final VoidCallback? onSpeak; // ✅ Added for replay button
 
   const _MessageBubble({
-    super.key,
     required this.message,
     required this.isUser,
     required this.time,

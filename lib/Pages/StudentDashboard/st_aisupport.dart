@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:sahaay/Pages/StudentDashboard/chat.dart';
-import 'package:sahaay/Pages/StudentDashboard/st_book.dart';
-import 'package:sahaay/Pages/StudentDashboard/st_dashboard.dart';
 import 'package:sahaay/Pages/StudentDashboard/st_front.dart';
 
 // AI Support Screen UI based on the image
@@ -100,6 +99,15 @@ class StAisupport extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
+          TextButton.icon(
+            onPressed: () async {
+              await FlutterPhoneDirectCaller.callNumber('8381836793');
+            },
+            icon: const Icon(Icons.call_outlined, color: Colors.green),
+            label: const Text('Ai Call Support'),
+          ),
+
+          const SizedBox(height: 32),
           // Other options
           TextButton.icon(
             onPressed: () {
@@ -173,7 +181,6 @@ class _AiFeatureCard extends StatelessWidget {
   final IconData icon;
 
   const _AiFeatureCard({
-    super.key,
     required this.title,
     required this.description,
     required this.icon,

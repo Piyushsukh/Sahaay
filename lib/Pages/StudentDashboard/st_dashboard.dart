@@ -13,23 +13,25 @@ class StDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F9FC),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          _buildHeader(),
-          const SizedBox(height: 16),
-          _buildDailyMotivation(context),
-          const SizedBox(height: 16),
-          _buildFeatureCards(),
-          const SizedBox(height: 16),
-          _buildProgressSection(),
-          const SizedBox(height: 16),
-          _buildRecentActivity(),
-          const SizedBox(height: 16),
-          _buildUpcomingAppointments(context),
-          const SizedBox(height: 16),
-          _buildCrisisSupportBanner(),
-        ],
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            _buildHeader(),
+            const SizedBox(height: 16),
+            _buildDailyMotivation(context),
+            const SizedBox(height: 16),
+            _buildFeatureCards(),
+            const SizedBox(height: 16),
+            _buildProgressSection(),
+            const SizedBox(height: 16),
+            _buildRecentActivity(),
+            const SizedBox(height: 16),
+            _buildUpcomingAppointments(context),
+            const SizedBox(height: 16),
+            _buildCrisisSupportBanner(),
+          ],
+        ),
       ),
     );
   }

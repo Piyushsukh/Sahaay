@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:sahaay/Pages/StudentDashboard/st_aisupport.dart';
+import 'package:sahaay/Pages/AdminDashboard/admin_counselor.dart';
+import 'package:sahaay/Pages/AdminDashboard/admin_overview.dart';
+import 'package:sahaay/Pages/AdminDashboard/admin_trend.dart';
 import 'package:sahaay/Pages/StudentDashboard/st_book.dart';
-import 'package:sahaay/Pages/StudentDashboard/st_dashboard.dart';
-import 'package:sahaay/Pages/StudentDashboard/st_journal.dart';
 import 'package:sahaay/Pages/StudentDashboard/st_profile.dart';
-import 'package:sahaay/Pages/StudentDashboard/wearable_page.dart';
 
-class StFront extends StatefulWidget {
+class AdminFront extends StatefulWidget {
   final String page;
-  const StFront({super.key, required this.page});
+  const AdminFront({super.key, required this.page});
 
   @override
-  State<StFront> createState() => _StFrontState();
+  State<AdminFront> createState() => _AdminFrontState();
 }
 
-class _StFrontState extends State<StFront> {
+class _AdminFrontState extends State<AdminFront> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    StDashboard(),
-    StJournal(),
-    StAisupport(),
+    AdminOverview(),
+    TrendsView(),
+    CounselorWorkloadPage(),
     StBook(),
     StProfile(),
   ];
@@ -28,17 +27,17 @@ class _StFrontState extends State<StFront> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-    });
+    }); 
   }
 
   @override
   initState() {
     super.initState();
-    if (widget.page == 'StDashboard') {
+    if (widget.page == 'AdminOverview') {
       _selectedIndex = 0;
-    } else if (widget.page == 'StJournal') {
+    } else if (widget.page == 'AdminTrends') {
       _selectedIndex = 1;
-    } else if (widget.page == 'StAisupport') {
+    } else if (widget.page == 'AdminCounsellors') {
       _selectedIndex = 2;
     } else if (widget.page == 'StBook') {
       _selectedIndex = 3;
@@ -63,18 +62,6 @@ class _StFrontState extends State<StFront> {
             ),
           ],
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.watch),
-            tooltip: "Wearable Data",
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const WearablePage()),
-              );
-            },
-          ),
-        ],
       ),
       body: IndexedStack(index: _selectedIndex, children: _pages),
       bottomNavigationBar: _buildBottomAppBar(context),
@@ -89,18 +76,18 @@ class _StFrontState extends State<StFront> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildBottomNavItem(context, Icons.dashboard, 'Dashboard', 0),
-            _buildBottomNavItem(context, Icons.book, 'Journal', 1),
+            _buildBottomNavItem(context, Icons.dashboard, 'Overview', 0),
+            _buildBottomNavItem(context, Icons.trending_up, 'Trends', 1),
             _buildBottomNavItem(
               context,
-              Icons.support_agent_outlined,
-              'AI Support',
+              Icons.group_outlined,
+              'Counsellors ',
               2,
             ),
             _buildBottomNavItem(
               context,
-              Icons.calendar_today_outlined,
-              'Book',
+              Icons.lightbulb_outline,
+              'Policies',
               3,
             ),
             _buildBottomNavItem(context, Icons.person_outline, 'Profile', 4),

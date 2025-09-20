@@ -96,6 +96,8 @@ class StBook extends StatelessWidget {
     ),
   ];
 
+  StBook({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
