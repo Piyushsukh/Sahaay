@@ -278,14 +278,10 @@ class CounselorWorkloadPage extends StatelessWidget {
 
           // 🔹 Grid of Counselors
           Expanded(
-            child: GridView.count(
-              crossAxisCount: 1,
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 12,
-              childAspectRatio: 2.4,
-              children: counselors.map((c) {
-                return _assignmentCard(c);
-              }).toList(),
+            child: ListView.builder(
+              itemCount: counselors.length,
+              itemBuilder: (context, index) =>
+                  _assignmentCard(counselors[index]),
             ),
           ),
         ],
@@ -298,6 +294,7 @@ class CounselorWorkloadPage extends StatelessWidget {
     int availableSlots = c.maxStudents - c.students;
 
     return Container(
+      margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -318,11 +315,18 @@ class CounselorWorkloadPage extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           Text(c.specialty, style: const TextStyle(color: Colors.grey)),
-          const Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text("📅 View Availability"),
+              TextButton(
+                onPressed: () {},
+                style: TextButton.styleFrom(
+                  fixedSize: Size(160, 5),
+                  overlayColor: Colors.transparent,
+                  backgroundColor: Colors.transparent,
+                ),
+                child: Text("📅 View Availability"),
+              ),
               Text(
                 "$availableSlots slots",
                 style: TextStyle(
@@ -332,8 +336,15 @@ class CounselorWorkloadPage extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
-          const Text("👥 Current Students"),
+          TextButton(
+            onPressed: () {},
+            style: TextButton.styleFrom(
+              fixedSize: Size(160, 5),
+              overlayColor: Colors.transparent,
+              backgroundColor: Colors.transparent,
+            ),
+            child: Text("👥 Current Students"),
+          ),
         ],
       ),
     );

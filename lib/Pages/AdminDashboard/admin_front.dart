@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sahaay/Pages/AdminDashboard/admin_counselor.dart';
 import 'package:sahaay/Pages/AdminDashboard/admin_overview.dart';
+import 'package:sahaay/Pages/AdminDashboard/admin_policies.dart';
+import 'package:sahaay/Pages/AdminDashboard/admin_profile.dart';
 import 'package:sahaay/Pages/AdminDashboard/admin_trend.dart';
-import 'package:sahaay/Pages/StudentDashboard/st_book.dart';
 import 'package:sahaay/Pages/StudentDashboard/st_profile.dart';
 
 class AdminFront extends StatefulWidget {
@@ -20,14 +21,14 @@ class _AdminFrontState extends State<AdminFront> {
     AdminOverview(),
     TrendsView(),
     CounselorWorkloadPage(),
-    StBook(),
-    StProfile(),
+    PoliciesView(),
+    AdminProfileView(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-    }); 
+    });
   }
 
   @override
