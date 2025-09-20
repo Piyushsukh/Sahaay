@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sahaay/Pages/AdminDashboard/admin_front.dart';
 import 'package:sahaay/Pages/AuthPage/sign_up.dart';
 import 'package:sahaay/Pages/StudentDashboard/st_front.dart';
 import 'package:sahaay/main.dart';
@@ -37,6 +38,21 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
               builder: (context) => StFront(page: 'StDashboard'),
+            ),
+            (_) => false,
+          );
+        }
+
+        if (_emailController.text == 'admin123@gmail.com' &&
+            _passwordController.text == 'admin123') {
+          ref.read(nameProvider.notifier).state = "Admin User";
+          if (!mounted) return;
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text("Welcome Admin")));
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => AdminFront(page: 'AdminOverview'),
             ),
             (_) => false,
           );

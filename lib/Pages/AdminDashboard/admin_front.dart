@@ -40,9 +40,9 @@ class _AdminFrontState extends State<AdminFront> {
       _selectedIndex = 1;
     } else if (widget.page == 'AdminCounsellors') {
       _selectedIndex = 2;
-    } else if (widget.page == 'StBook') {
+    } else if (widget.page == 'AdminPolicies') {
       _selectedIndex = 3;
-    } else if (widget.page == 'StProfile') {
+    } else if (widget.page == 'AdminProfile') {
       _selectedIndex = 4;
     }
   }

@@ -41,7 +41,7 @@ class Sahaay extends StatelessWidget {
         ),
         iconTheme: IconThemeData(color: Color.fromARGB(255, 94, 139, 126)),
       ),
-      home: AdminFront(page: 'AdminOverview'),
+      home: SplashScreen(),
     );
   }
 }
