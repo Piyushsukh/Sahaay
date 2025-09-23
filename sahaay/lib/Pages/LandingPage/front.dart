@@ -37,10 +37,10 @@ class _FrontPageState extends State<FrontPage> {
           child: Image.asset('assets/images/logo.png'),
         ),
       ),
+
       body: IndexedStack(index: _selectedIndex, children: _pages),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
-        shape: const CircularNotchedRectangle(),
         notchMargin: 8.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -4,7 +4,6 @@ import 'package:sahaay/Pages/AdminDashboard/admin_overview.dart';
 import 'package:sahaay/Pages/AdminDashboard/admin_policies.dart';
 import 'package:sahaay/Pages/AdminDashboard/admin_profile.dart';
 import 'package:sahaay/Pages/AdminDashboard/admin_trend.dart';
-import 'package:sahaay/Pages/StudentDashboard/st_profile.dart';
 
 class AdminFront extends StatefulWidget {
   final String page;
