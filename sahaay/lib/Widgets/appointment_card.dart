@@ -33,7 +33,6 @@ class AppointmentCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Counselor Info
             Row(
               children: [
                 const CircleAvatar(
@@ -75,7 +74,6 @@ class AppointmentCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            // Details
             Text(details, style: const TextStyle(fontSize: 14)),
             const SizedBox(height: 8),
             Row(
@@ -117,15 +115,12 @@ class AppointmentCard extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-            // Action Buttons
             Wrap(
               spacing: 8,
               runSpacing: 8,
               children: [
                 ElevatedButton.icon(
-                  onPressed: () {
-                    // TODO: Handle join session
-                  },
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                   icon: const Icon(
                     Icons.video_call,
@@ -135,9 +130,7 @@ class AppointmentCard extends StatelessWidget {
                   label: const Text("Join Session"),
                 ),
                 ElevatedButton.icon(
-                  onPressed: () {
-                    // TODO: Handle WhatsApp
-                  },
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                   ),
@@ -149,9 +142,7 @@ class AppointmentCard extends StatelessWidget {
                   label: const Text("WhatsApp"),
                 ),
                 OutlinedButton.icon(
-                  onPressed: () {
-                    // TODO: Handle reschedule
-                  },
+                  onPressed: () {},
                   icon: const Icon(Icons.schedule, size: 18),
                   label: const Text("Reschedule"),
                 ),

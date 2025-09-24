@@ -3,6 +3,8 @@ import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:sahaay/Animation/logo_animation.dart';
+import 'package:sahaay/Pages/StudentDashboard/st_dashboard.dart';
+import 'package:sahaay/Pages/StudentDashboard/st_front.dart';
 
 final nameProvider = StateProvider<String>((ref) {
   return "";
@@ -39,7 +41,7 @@ class Sahaay extends StatelessWidget {
         ),
         iconTheme: IconThemeData(color: Color.fromARGB(255, 94, 139, 126)),
       ),
-      home: SplashScreen(),
+      home: StFront(page: 'StDashboard'),
     );
   }
 }

@@ -3,7 +3,6 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:sahaay/Pages/StudentDashboard/chat.dart';
 import 'package:sahaay/Pages/StudentDashboard/st_front.dart';
 
-// AI Support Screen UI based on the image
 class StAisupport extends StatelessWidget {
   const StAisupport({super.key});
 
@@ -15,7 +14,6 @@ class StAisupport extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(height: 32),
-          // AI icon
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -29,7 +27,6 @@ class StAisupport extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
-          // Welcome text
           Text(
             'Welcome to AI Support',
             style: Theme.of(context).textTheme.headlineSmall,
@@ -42,7 +39,6 @@ class StAisupport extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 48),
-          // Feature cards grid
           GridView.count(
             crossAxisCount: 2,
             shrinkWrap: true,
@@ -77,7 +73,6 @@ class StAisupport extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 48),
-          // "Start Conversation" button
           ElevatedButton(
             onPressed: () {
               Navigator.of(context).push(
@@ -101,14 +96,13 @@ class StAisupport extends StatelessWidget {
           const SizedBox(height: 24),
           TextButton.icon(
             onPressed: () async {
-              await FlutterPhoneDirectCaller.callNumber('8381836793');
+              await FlutterPhoneDirectCaller.callNumber('9125438488');
             },
             icon: const Icon(Icons.call_outlined, color: Colors.green),
             label: const Text('Ai Call Support'),
           ),
 
           const SizedBox(height: 32),
-          // Other options
           TextButton.icon(
             onPressed: () {
               Navigator.of(context).push(
@@ -132,7 +126,6 @@ class StAisupport extends StatelessWidget {
             label: const Text('Back to Dashboard'),
           ),
           const SizedBox(height: 32),
-          // Important Notice Card
           Card(
             color: const Color(0xFFFFF3E0),
             elevation: 0,
@@ -174,7 +167,6 @@ class StAisupport extends StatelessWidget {
   }
 }
 
-// A reusable card for the AI features
 class _AiFeatureCard extends StatelessWidget {
   final String title;
   final String description;

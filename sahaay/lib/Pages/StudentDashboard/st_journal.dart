@@ -9,7 +9,7 @@ class StJournal extends StatefulWidget {
 
 class _StJournalState extends State<StJournal> {
   String selectedMood = "Neutral";
-  String selectedFilter = "All"; // ✅ Track which filter is selected
+  String selectedFilter = "All";
   final TextEditingController _entryController = TextEditingController();
 
   final List<Map<String, String>> journalEntries = [];
@@ -40,7 +40,6 @@ class _StJournalState extends State<StJournal> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Daily Journal card
             Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -104,7 +103,6 @@ class _StJournalState extends State<StJournal> {
             ),
             const SizedBox(height: 16),
 
-            // Tips box
             Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -133,7 +131,6 @@ class _StJournalState extends State<StJournal> {
             ),
             const SizedBox(height: 16),
 
-            // Search & Filter section
             Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -169,29 +166,27 @@ class _StJournalState extends State<StJournal> {
             ),
             const SizedBox(height: 16),
 
-            // Entries list
-            if (journalEntries.isEmpty)
-              const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Text(
-                    "No entries found.",
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                ),
-              )
-            else
-              Column(
-                children: journalEntries.map((entry) {
-                  return Card(
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                    child: ListTile(
-                      leading: Text(entry["mood"] ?? ""),
-                      title: Text(entry["text"] ?? ""),
+            journalEntries.isEmpty
+                ? const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(20),
+                      child: Text(
+                        "No entries found.",
+                        style: TextStyle(color: Colors.grey),
+                      ),
                     ),
-                  );
-                }).toList(),
-              ),
+                  )
+                : Column(
+                    children: journalEntries.map((entry) {
+                      return Card(
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        child: ListTile(
+                          leading: Text(entry["mood"] ?? ""),
+                          title: Text(entry["text"] ?? ""),
+                        ),
+                      );
+                    }).toList(),
+                  ),
           ],
         ),
       ),
@@ -215,11 +210,9 @@ class _StJournalState extends State<StJournal> {
       label: Text(mood),
       selected: selectedFilter == mood,
       onSelected: (bool selected) {
-        if (selected) {
-          setState(() {
-            selectedFilter = mood;
-          });
-        }
+        setState(() {
+          selectedFilter = mood;
+        });
       },
     );
   }

@@ -47,16 +47,12 @@ class StDashboard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Consumer(
-                builder: (context, ref, child) {
-                  return Text(
-                    'Good evening, ${ref.watch(nameProvider)}!',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  );
-                },
+              Text(
+                'Good evening, ${ref.watch(nameProvider)}!',
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 4),
               const Text(
@@ -69,7 +65,6 @@ class StDashboard extends StatelessWidget {
               ),
               const SizedBox(height: 16),
 
-              // Mood Row
               Row(
                 children: [
                   Icon(
@@ -93,7 +88,7 @@ class StDashboard extends StatelessWidget {
                         ),
                       ),
                       const Text(
-                        "Last updated: 11:24 PM", // you can replace with real timestamp
+                        "Last updated: 11:24 PM",
                         style: TextStyle(color: Colors.grey, fontSize: 10),
                       ),
                     ],
@@ -103,7 +98,6 @@ class StDashboard extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              // Update Mood Button
               ElevatedButton(
                 onPressed: () {
                   _showMoodDialog(context, ref);
@@ -147,7 +141,7 @@ class StDashboard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         ref.read(moodProvider.notifier).state = mood;
-        Navigator.pop(context); // close dialog
+        Navigator.pop(context);
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,
