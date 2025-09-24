@@ -29,6 +29,10 @@ class _StProfileState extends State<StProfile> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("My Profile"),
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
         centerTitle: true,
         actions: [
           IconButton(
@@ -56,7 +60,6 @@ class _StProfileState extends State<StProfile> {
             ),
             const SizedBox(height: 24),
 
-            // Editable fields
             buildTextField("Full Name", nameController, isEditing),
             buildTextField("Email", emailController, isEditing),
             buildTextField("Branch", branchController, isEditing),
@@ -64,7 +67,6 @@ class _StProfileState extends State<StProfile> {
 
             const SizedBox(height: 20),
 
-            // Stats
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -75,7 +77,6 @@ class _StProfileState extends State<StProfile> {
 
             const SizedBox(height: 30),
 
-            // Logout button
             ElevatedButton.icon(
               onPressed: () {
                 Navigator.of(context).pushAndRemoveUntil(
@@ -99,7 +100,6 @@ class _StProfileState extends State<StProfile> {
 
             const SizedBox(height: 15),
 
-            // ⚠️ Delete Account button
             ElevatedButton.icon(
               onPressed: () {
                 _confirmDelete(context);
@@ -175,13 +175,11 @@ class _StProfileState extends State<StProfile> {
         actions: [
           TextButton(
             child: const Text("Cancel"),
-            onPressed: () => Navigator.pop(ctx),
+            onPressed: () => Navigator.of(context).pop(),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () {
-              Navigator.pop(ctx);
-              // TODO: Add actual delete logic here
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text("Account deleted permanently."),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class StBook extends StatelessWidget {
-  final List<Counselor> counselors = [
+  final List<Counselor> counselors = const [
     Counselor(
       name: "Dr. Rajesh Kumar",
       title: "Licensed Marriage & Family Therapist",
@@ -96,7 +96,7 @@ class StBook extends StatelessWidget {
     ),
   ];
 
-  StBook({super.key});
+  const StBook({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -115,9 +115,7 @@ class StBook extends StatelessWidget {
               "Connect with licensed mental health professionals who understand the unique challenges of Indian student life. Your wellbeing is our priority.",
               style: TextStyle(fontSize: 14, color: Colors.grey[700]),
             ),
-            SizedBox(height: 16),
-            SizedBox(height: 20),
-            // Search bar
+            SizedBox(height: 36),
             TextField(
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.search),
@@ -153,7 +151,7 @@ class Counselor {
   final String availabilityText;
   final String profileImage;
 
-  Counselor({
+  const Counselor({
     required this.name,
     required this.title,
     required this.experience,
