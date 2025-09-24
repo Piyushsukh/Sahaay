@@ -43,9 +43,9 @@ class _AiChatPageState extends State<AiChatPage> {
 
     final gemini = Gemini.instance;
     try {
-      final response = await gemini.text(text);
+      final response = await gemini.prompt(parts: [Part.text(text)]);
 
-      final reply = response?.output ?? "No response"; // ✅ Extract reply
+      final reply = response?.output ?? "No response";
 
       setState(() {
         _messages.add(
@@ -69,46 +69,33 @@ class _AiChatPageState extends State<AiChatPage> {
 
   void _listen() async {
     if (!_isListening) {
-      bool available = await _speech.initialize(
-        onStatus: (val) => print("STATUS: $val"),
-        onError: (val) => print("ERROR: $val"),
-      );
+      bool available = await _speech.initialize();
       if (available) {
         setState(() => _isListening = true);
         _speech.listen(
           onResult: (val) {
             setState(() {
-              _controller.text =
-                  val.recognizedWords; // ✅ Fill textfield with speech
+              _controller.text = val.recognizedWords;
             });
           },
         );
       }
     } else {
       setState(() => _isListening = false);
-      _speech.stop(); // ✅ Stop listening
+      _speech.stop();
     }
   }
 
   @override
   void initState() {
     super.initState();
-    _initializeSpeech();
-    _speech = stt.SpeechToText(); // ✅ Init speech recognition
-  }
-
-  Future<void> _initializeSpeech() async {
-    bool available = await _speech.initialize(
-      onStatus: (val) => print("STATUS: $val"),
-      onError: (val) => print("ERROR: $val"),
-    );
-    print("Speech available: $available");
+    _speech = stt.SpeechToText();
   }
 
   @override
   void dispose() {
     _speech.stop();
-    flutterTts.stop(); // ✅ Stop TTS when page is closed
+    flutterTts.stop();
     super.dispose();
   }
 
@@ -209,7 +196,7 @@ class _MessageBubble extends StatelessWidget {
   final String message;
   final bool isUser;
   final String time;
-  final VoidCallback? onSpeak; // ✅ Added for replay button
+  final VoidCallback? onSpeak;
 
   const _MessageBubble({
     required this.message,
@@ -248,7 +235,7 @@ class _MessageBubble extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(child: Text(message)),
-                if (onSpeak != null) // ✅ Speaker button only for AI
+                if (onSpeak != null)
                   IconButton(
                     icon: const Icon(Icons.volume_up, size: 18),
                     onPressed: onSpeak,

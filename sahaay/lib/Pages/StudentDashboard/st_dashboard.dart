@@ -9,6 +9,11 @@ import 'package:sahaay/widgets/appointment_card.dart';
 class StDashboard extends StatelessWidget {
   const StDashboard({super.key});
 
+  String _currentTime() {
+    final now = DateTime.now();
+    return "${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,9 +92,12 @@ class StDashboard extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const Text(
-                        "Last updated: 11:24 PM",
-                        style: TextStyle(color: Colors.grey, fontSize: 10),
+                      Text(
+                        "Last updated: ${_currentTime()}",
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 10,
+                        ),
                       ),
                     ],
                   ),
