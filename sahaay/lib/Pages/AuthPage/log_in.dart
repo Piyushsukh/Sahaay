@@ -71,22 +71,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           child: Column(
             children: [
               const SizedBox(height: 30),
-              // Logo / Image
               CircleAvatar(
                 radius: 70,
-                backgroundColor: Colors.grey.shade200, // optional background
-                child: ClipOval(
-                  child: Image.asset(
-                    "assets/images/logo.png",
-                    fit: BoxFit.contain, // keeps the whole image visible
-                    width: 140, // same as diameter (radius * 2)
-                    height: 140,
-                  ),
+                backgroundColor: Colors.white,
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  height: 102,
+                  width: 102,
+                  fit: BoxFit.cover,
                 ),
               ),
               const SizedBox(height: 20),
 
-              // Info Card
               Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
@@ -136,7 +132,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               ),
               const SizedBox(height: 30),
 
-              // Login Form
               Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
@@ -159,7 +154,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                         const SizedBox(height: 20),
 
-                        // Email
                         TextFormField(
                           controller: _emailController,
                           decoration: const InputDecoration(
@@ -181,7 +175,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                         const SizedBox(height: 16),
 
-                        // Password
                         TextFormField(
                           controller: _passwordController,
                           obscureText: true,
@@ -223,15 +216,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         const SizedBox(height: 12),
                         const Divider(),
                         const SizedBox(height: 12),
-                        // Google Login
                         OutlinedButton.icon(
                           icon: FaIcon(FontAwesomeIcons.google),
                           label: const Text("Continue with Google"),
                           onPressed: () {},
                         ),
                         const SizedBox(height: 16),
-
-                        // Links
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

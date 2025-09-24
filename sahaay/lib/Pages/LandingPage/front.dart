@@ -41,7 +41,6 @@ class _FrontPageState extends State<FrontPage> {
       body: IndexedStack(index: _selectedIndex, children: _pages),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
-        notchMargin: 8.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [

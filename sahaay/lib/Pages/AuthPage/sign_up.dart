@@ -82,7 +82,6 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     ),
                     const SizedBox(height: 20),
 
-                    // Full Name
                     TextFormField(
                       controller: _nameController,
                       decoration: const InputDecoration(
@@ -98,7 +97,6 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     ),
                     const SizedBox(height: 16),
 
-                    // Email
                     TextFormField(
                       controller: _emailController,
                       decoration: const InputDecoration(
@@ -120,7 +118,6 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     ),
                     const SizedBox(height: 16),
 
-                    // Password
                     TextFormField(
                       controller: _passwordController,
                       obscureText: _obscurePassword,
@@ -152,7 +149,6 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     ),
                     const SizedBox(height: 16),
 
-                    // Role Dropdown
                     DropdownButtonFormField<String>(
                       initialValue: _selectedRole,
                       decoration: const InputDecoration(
@@ -178,7 +174,6 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     ),
                     const SizedBox(height: 24),
 
-                    // Signup Button
                     ElevatedButton.icon(
                       icon: _isLoading
                           ? const SizedBox(
@@ -214,6 +209,10 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                               ),
                             );
                           },
+                          style: TextButton.styleFrom(
+                            overlayColor: Colors.transparent,
+                            backgroundColor: Colors.transparent,
+                          ),
                           child: const Text(
                             "Log in",
                             style: TextStyle(
