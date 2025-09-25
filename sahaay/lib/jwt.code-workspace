@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "jwt",
+			"path": "../../../../OneDrive/Desktop/jwt"
+		},
+		{
+			"name": "app",
+			"path": "../.."
+		}
+	],
+	"settings": {}
+}
